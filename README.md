@@ -33,3 +33,9 @@ Collect honest feedback from every customer. Do not hide or divert negative feed
 
 ## Before production
 Add tenant authorization to every data operation, test RLS across separate businesses, encrypt Google OAuth tokens server-side, implement abuse protection and privacy/data-retention workflows, and verify Google Business Profile API access and quotas.
+
+## QR Code Management
+
+Open **QR Management** from the dashboard. The page loads active locations available to the signed-in business member, creates a stable location-specific feedback URL, and generates a preview. Owners can download a PNG for digital sharing or an SVG for crisp print output. QR artwork is generated in the browser with the `qrcode` package; no third-party QR service receives customer or business data.
+
+The QR module depends on authenticated Supabase access and the existing `locations` table. Each location must have a unique `public_slug`. The public feedback URL is `/feedback/{public_slug}`.
