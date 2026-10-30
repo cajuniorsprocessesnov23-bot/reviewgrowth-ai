@@ -1,4 +1,4 @@
-# ReviewGrowth AI — MVP scaffold
+# Branditude Business Growth AI — MVP scaffold
 
 Multi-business customer feedback and review-management SaaS starter built with Next.js, TypeScript, Tailwind CSS, Supabase and Gemini.
 
