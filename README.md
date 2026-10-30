@@ -1,28 +1,35 @@
-# ReviewGrowth AI
+# ReviewGrowth AI — MVP scaffold
 
-AI-powered review management and local SEO SaaS MVP.
+Multi-business customer feedback and review-management SaaS starter built with Next.js, TypeScript, Tailwind CSS, Supabase and Gemini.
 
-## Source bundle
+## Included
+- Responsive dashboard UI with demo metrics and sample feedback.
+- Public QR feedback route at /feedback/[slug].
+- Supabase-backed feedback submission API.
+- Gemini AI review-writing assistant that uses only facts supplied by the customer.
+- Initial multi-tenant PostgreSQL schema and RLS policies.
+- Supabase browser and server client helpers.
 
-The complete Next.js MVP source, Supabase SQL migration, API routes, UI and setup files are included in [`reviewgrowth-ai-source.zip`](./reviewgrowth-ai-source.zip). Download and extract the archive to work with the project.
+## Run locally
+1. Install Node.js 22 or later.
+2. Copy .env.example to .env.local and fill in Supabase credentials.
+3. Run supabase/migrations/0001_initial_schema.sql in the Supabase SQL editor.
+4. Add GEMINI_API_KEY to enable AI suggestions.
+5. Run npm install, then npm run dev.
+6. Open http://localhost:3000.
 
-## Stack
+## Environment
+See .env.example. Never commit .env.local, Gemini keys, Google OAuth secrets, Razorpay secrets or Supabase service-role keys.
 
-- Next.js and TypeScript
-- Tailwind CSS
-- Supabase / PostgreSQL
-- Gemini API integration scaffold
+## Not yet connected
+- Authentication and business onboarding.
+- Live database-backed dashboard (dashboard currently uses demo data).
+- Google Business Profile OAuth, review sync and owner replies.
+- WhatsApp/email notifications and Razorpay subscriptions.
+- Production rate limiting, CAPTCHA, monitoring and full security testing.
 
-## Local setup
+## Review integrity
+Collect honest feedback from every customer. Do not hide or divert negative feedback to manipulate ratings. AI may help customers express their own real experience, but must not invent facts, sentiment, keywords or claims. Customers must approve and submit reviews themselves; the app does not auto-publish reviews.
 
-1. Extract `reviewgrowth-ai-source.zip`.
-2. Run `npm install` in the extracted `reviewgrowth-ai` directory.
-3. Copy `.env.example` to `.env.local` and add your own credentials.
-4. Apply `supabase/migrations/0001_initial_schema.sql` to your Supabase project.
-5. Run `npm run dev`.
-
-Never commit API keys, service-role keys, or production secrets. The MVP is a development scaffold; verify integrations and security before production deployment.
-
-## Review policy
-
-The product supports collecting feedback from all customers and helping customers express their own genuine experiences. It must not filter who is invited to review, fabricate reviews, or automatically publish reviews on a customer's behalf.
+## Before production
+Add tenant authorization to every data operation, test RLS across separate businesses, encrypt Google OAuth tokens server-side, implement abuse protection and privacy/data-retention workflows, and verify Google Business Profile API access and quotas.
