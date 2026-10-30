@@ -17,7 +17,7 @@ export default function AuthForm({ mode }: { mode: Mode }) {
   try { const supabase=createSupabaseBrowserClient();
    if(register){if(selectedServices.length===0)throw new Error('Select at least one service to continue.');const {data,error}=await supabase.auth.signUp({email,password,options:{data:{full_name:name,account_type:'business',selected_service_keys:selectedServices},emailRedirectTo:window.location.origin+'/auth/callback?next=%2Fbusiness%2Fonboarding'}});if(error)throw error;if(!data.session){setNotice('Account created. Verify your email, then sign in to finish business setup.');return;}router.push('/business/onboarding');router.refresh();return;}
    const {error}=await supabase.auth.signInWithPassword({email,password});if(error)throw error;
-   const check=await fetch(team?'/api/team/access':'/api/business/access');const result=await check.json();if(!check.ok){await supabase.auth.signOut();throw new Error(result.error||'This account does not have access to this portal.');}
+   const check=await fetch(team?'/api/team/access':'/api/business/access');const result=await check.json();if(!check.ok){if(!team&&check.status===403&&String(result.error||'').includes('No business workspace')){router.push('/business/onboarding');router.refresh();return;}await supabase.auth.signOut();throw new Error(result.error||'This account does not have access to this portal.');}
    router.push(team?'/team':'/business/dashboard');router.refresh();
   } catch(err){setError(err instanceof Error?err.message:'Authentication failed.');} finally{setBusy(false);}
  }
