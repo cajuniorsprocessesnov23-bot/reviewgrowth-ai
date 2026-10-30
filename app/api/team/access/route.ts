@@ -1,0 +1,3 @@
+import { NextResponse } from 'next/server';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
+export async function GET(){const db=await createSupabaseServerClient();const {data:{user},error}=await db.auth.getUser();if(error||!user)return NextResponse.json({error:'Please sign in.'},{status:401});const {data,error:staffError}=await db.from('platform_staff').select('role,is_active').eq('user_id',user.id).eq('is_active',true).maybeSingle();if(staffError)return NextResponse.json({error:'Could not verify team access.'},{status:500});if(!data)return NextResponse.json({error:'This account is not authorized for the internal portal.'},{status:403});return NextResponse.json({role:data.role});}
