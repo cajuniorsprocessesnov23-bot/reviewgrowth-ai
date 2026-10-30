@@ -12,7 +12,7 @@ export default function AuthForm({ mode }: { mode: Mode }) {
  const register=mode==='business-register'; const team=mode==='team-login';
  async function submit(e:React.FormEvent){e.preventDefault();setBusy(true);setError('');setNotice('');
   try { const supabase=createSupabaseBrowserClient();
-   if(register){const {data,error}=await supabase.auth.signUp({email,password,options:{data:{full_name:name,account_type:'business'},emailRedirectTo:window.location.origin+'/business/onboarding'}});if(error)throw error;if(!data.session){setNotice('Account created. Verify your email, then sign in to finish business setup.');return;}router.push('/business/onboarding');router.refresh();return;}
+   if(register){const {data,error}=await supabase.auth.signUp({email,password,options:{data:{full_name:name,account_type:'business'},emailRedirectTo:window.location.origin+'/auth/callback?next=%2Fbusiness%2Fonboarding'}});if(error)throw error;if(!data.session){setNotice('Account created. Verify your email, then sign in to finish business setup.');return;}router.push('/business/onboarding');router.refresh();return;}
    const {error}=await supabase.auth.signInWithPassword({email,password});if(error)throw error;
    const check=await fetch(team?'/api/team/access':'/api/business/access');const result=await check.json();if(!check.ok){await supabase.auth.signOut();throw new Error(result.error||'This account does not have access to this portal.');}
    router.push(team?'/team':'/business/dashboard');router.refresh();
