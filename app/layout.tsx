@@ -1,9 +1,15 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
+import PwaRegister from '@/components/pwa-register';
 import './globals.css';
 export const metadata: Metadata = {
-  title: 'ReviewGrowth AI | Customer Experience Intelligence',
-  description: 'Collect authentic customer feedback, understand sentiment and improve local search visibility.',
+ title: 'ReviewGrowth AI | Customer Experience Intelligence',
+ description: 'Collect authentic customer feedback, discover offers and rewards, and improve local search visibility.',
+ manifest: '/manifest.webmanifest',
+ appleWebApp: { capable: true, statusBarStyle: 'default', title: 'ReviewGrowth' },
+ applicationName: 'ReviewGrowth AI',
+ icons: { icon: '/icons/icon-512.svg', apple: '/icons/icon-512.svg' },
 };
+export const viewport: Viewport = { themeColor: '#111827', width: 'device-width', initialScale: 1 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body>{children}</body></html>;
+ return <html lang="en"><body><PwaRegister />{children}</body></html>;
 }
